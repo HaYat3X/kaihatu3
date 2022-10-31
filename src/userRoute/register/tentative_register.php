@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // すでにメールアドレスが登録されている場合エラー出力
     $alreadyEmail = $obj::emailCheck($email);
-    if (!$alreadyEmail) {
+    if ($alreadyEmail) {
         $err[] = '指定のメールアドレスは既に登録されています。ログインしてください。';
     }
 
