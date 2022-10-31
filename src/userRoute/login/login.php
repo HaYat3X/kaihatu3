@@ -21,15 +21,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = filter_input(INPUT_POST, 'password');
 
     // ログインメソッドを実行
-    $result = $obj::login($email);
+    $result = $obj::login($email, $password);
     var_dump($result);
 
     // ユーザ存在なし、パスワード不一致の場合エラーを出す
-    if(!$result){
+    if (!$result) {
         $err[] = '認証に失敗しました。';
     }
 }
-// <?php header('refresh:3;url=../intern/view.php'); ?>
+
 
 ?>
 
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <?php if (count($err) === 0) : ?>
             <label>ログインが完了しました。</label>
-            
+            <?php header('refresh:3;url=../intern/view.php'); ?>
         <?php endif; ?>
     </div>
 </body>

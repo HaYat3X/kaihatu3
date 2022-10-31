@@ -72,21 +72,31 @@ class UserLogic
         return true;
     }
 
-    public static function login($email)
+    public static function login($email, $password)
     {
         // メールアドレスが存在するか判定する
-        $emailCheck = self::emailCheck($email);
+        $userData = self::emailCheck($email);
 
         // データが存在しない(返り値がTrue)であればエラーとする
-        if (!$emailCheck) {
+        if (!$userData) {
             return false;
         }
 
         // データが存在した場合パスワード認証を行う
-        if($emailCheck){
-            return $emailCheck;
+        if ($userData) {
+            // DBのパスワードを取得
+            foreach ($userData as $row) {
+                $db_password = $row['password'];
+            }
+
+            if (password_verify($password, $db_password)) {
+                //ログイン成功の場合 trueを返す
+                session_regenerate_id(true);
+                $_SESSION['login_user'] = $userData;
+                return true;
+            } else {
+                return false;
+            }
         }
-
-
     }
 }
